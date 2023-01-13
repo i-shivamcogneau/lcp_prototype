@@ -1,0 +1,26 @@
+{
+  "ID": "string",
+  "APIS": [
+    "Add 1",
+    "Add 2"
+  ],
+  "OBJECTS": [
+    {
+      "_id": 1,     
+      "object": {
+        "a": 5,
+        "b": 10
+      }
+    },
+    {
+      "_id": 2,
+      "object": {
+        "a": 12,
+        "b": 18
+      }
+    }
+  ],
+  "PROCESSES": [
+    "ADDITION 1 2","MULTIPLICATION 1 12"
+  ]
+}
