@@ -1,6 +1,7 @@
 import { Controller, Get, StreamableFile, Req, Res, Body, Response, Post, Put, Param } from '@nestjs/common';
 import { AppService } from './app.service';
 import { DataService } from './data/data.service';
+import { JsonProducerService } from './json-producer';
 import { ProcessService } from './process/process.service';
 import { ObjDTO } from './schemas/obj.dto';
 
@@ -9,7 +10,13 @@ export class AppController {
   constructor(private readonly appService: AppService,
     private readonly dataService: DataService,
     private readonly processService: ProcessService,
+    private readonly jsonProducerService: JsonProducerService,
   ) {}
+
+  @Post('addToQueue')
+  getInvokeMsg(@Body() objDTO: ObjDTO){
+    return this.jsonProducerService.sendJsonObj(objDTO);
+  }
 
   @Get('js')
   getJS(@Req() req, @Response({ passthrough: true }) res ): StreamableFile {

@@ -4,11 +4,14 @@ import { ConfigService } from '@nestjs/config/dist';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { BullModule } from '@nestjs/bull';
 import { MongooseModelsModule } from './schemas/mongoose-models.module';
 // import { DataModule } from './data/data.module';
 import { DataService } from './data/data.service';
 import { ProcessModule } from './process/process.module';
 import { ProcessService } from './process/process.service';
+import { JsonProducerService } from './json-producer';
+import { JsonConsumer } from './json-consumer';
 
 const useCase = 'Dev';   // Dev, Test, Prod
 
@@ -33,6 +36,16 @@ const useCase = 'Dev';   // Dev, Test, Prod
       inject: [ConfigService],
     }),
     
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      }
+    }),
+    BullModule.registerQueue({
+      name: 'json-queue',
+    }),
+
     MongooseModelsModule,
     
     ProcessModule,
@@ -40,6 +53,6 @@ const useCase = 'Dev';   // Dev, Test, Prod
     // DataModule,
   ],
   controllers: [AppController],
-  providers: [AppService, DataService, ProcessService],
+  providers: [AppService, DataService, ProcessService, JsonProducerService, JsonConsumer],
 })
 export class AppModule {}
