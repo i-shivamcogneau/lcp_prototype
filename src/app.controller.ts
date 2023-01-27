@@ -1,5 +1,6 @@
-import { Controller, Get, StreamableFile, Req, Res, Body, Response, Post, Put, Param } from '@nestjs/common';
+import { Controller, Get, StreamableFile, Req, Res, Body, Response, Post, Put, Param, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
+import { AuthenticatedGuard } from './auth/authenticated.guard';
 import { DataService } from './data/data.service';
 import { JsonProducerService } from './json-producer';
 import { ProcessService } from './process/process.service';
@@ -13,6 +14,7 @@ export class AppController {
     private readonly jsonProducerService: JsonProducerService,
   ) {}
 
+  @UseGuards(AuthenticatedGuard)
   @Post('addToQueue')
   getInvokeMsg(@Body() objDTO: ObjDTO){
     return this.jsonProducerService.sendJsonObj(objDTO);

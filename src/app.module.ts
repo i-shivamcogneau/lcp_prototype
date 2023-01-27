@@ -12,6 +12,8 @@ import { ProcessModule } from './process/process.module';
 import { ProcessService } from './process/process.service';
 import { JsonProducerService } from './json-producer';
 import { JsonConsumer } from './json-consumer';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 const useCase = 'Dev';   // Dev, Test, Prod
 
@@ -47,7 +49,8 @@ const useCase = 'Dev';   // Dev, Test, Prod
     }),
 
     MongooseModelsModule,
-    
+    UsersModule,
+    AuthModule,
     ProcessModule,
     
     // DataModule,
