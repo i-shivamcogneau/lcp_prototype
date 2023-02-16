@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { objs } from './applicationTSFiles/application';
 
 const { MongoClient, ObjectId } = require('mongodb');
-// const mongodb = require('mongodb');
-// const ObjectID = mongodb.ObjectId;
+
 const uri = 'mongodb://localhost:27017';
 
 const mclientMain = new MongoClient(uri, {
@@ -32,39 +31,36 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async postOBJ(paiii) {
-    var t = new objs.PutAway(paiii);   
+  async postOBJ(req) {
+    var objInstance = new objs.PutAway(req);   
 
-    var pai = JSON.parse(JSON.stringify(t));
+    var instanceObj = JSON.parse(JSON.stringify(objInstance));
 
-    if(Object.keys(pai).length == 0){
+    if(Object.keys(instanceObj).length == 0){
       return 'empty';
     }
 
     mongoConnection().then(() => {
       const collection = mclientMain.db('conn2mongo').collection("temps");
-      collection.insertOne(pai)
+      collection.insertOne(instanceObj)
     })
 
-    classInstances["t"] =t;
+    classInstances[req.classInstanceName] = objInstance;
 
-    return pai;
+    return instanceObj;
   }
 
-  async putOBJ(paiii) {       // paiii = {"key":"status", "value": 123, "id": "63ec6df03f06ca7003b558bb"}
-    var t = classInstances["t"];
-    t.setUpdate({"key":"status", "value": 123})
+  async putOBJ(req) {
+    var objInstance = classInstances[req.classInstanceName];
+    objInstance.setUpdate(req.updateData)
 
-    var pai = JSON.parse(JSON.stringify(t));
-
-    let query = new ObjectId(paiii._id);
+    var instanceObj = JSON.parse(JSON.stringify(objInstance));
 
     mongoConnection().then(() => {
       const collection = mclientMain.db('conn2mongo').collection("temps");
-      collection.updateMany({_id: query},
-      {$set: pai})
+      collection.updateMany(req.filter, {$set: instanceObj})
     })
 
-    return pai;
+    return instanceObj;
   }
 }

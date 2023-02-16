@@ -61,7 +61,9 @@ export class PutAway {
 
 
     setUpdate(toUpdate) {
-        eval(`this.${toUpdate.key}=${toUpdate.value}`);
+        for (let i in toUpdate){
+            this[i] = toUpdate[i]
+        }
         this.updated_at = (JSON.parse(JSON.stringify(new Date()))).toString();
     }
 }

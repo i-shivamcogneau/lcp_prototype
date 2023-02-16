@@ -9,13 +9,13 @@ export class ObjectService {
     @InjectModel(PutAway_MODEL) private readonly PutAwayModel: Model<PutAwayDocument>
   ) {}
 
-  async PostObj(pai) {
-    const createdObject = await this.PutAwayModel.create(pai);
+  async PostObj(req) {
+    const createdObject = await this.PutAwayModel.create(req);
     return createdObject;
   }
 
-  async PutObj(pai) {
-    const updatedJob = await this.PutAwayModel.findByIdAndUpdate(pai._id, pai, {
+  async PutObj(req) {
+    const updatedJob = await this.PutAwayModel.findOneAndUpdate(req.filter, req.updateData, {
       new: true,
     });
 

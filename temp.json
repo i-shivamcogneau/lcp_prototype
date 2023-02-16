@@ -41,3 +41,22 @@
       }
     ]
 }
+
+
+
+
+// mclient
+
+// {
+//   "classInstanceName": "t",
+//   "filter" : {
+//       "id": 1676529811712
+//   },
+//   "updateData" : {
+//       "status" : 123,
+//       "location_code": "abc",
+//       "document_no" : "def"
+//   },
+//   "status": 789,
+//   "putaway_client": "Disney_Bhiwandi"
+// }
